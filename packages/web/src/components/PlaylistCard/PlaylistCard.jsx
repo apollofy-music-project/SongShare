@@ -82,14 +82,14 @@ function PlaylistCard({ playlist }) {
                 </div>
                 <Link
                     to={{
-                        pathname: `playlist/${playlist._id}`,
+                        pathname: `/playlist/${playlist._id}`,
                         playlistId: playlist._id,
                     }}
                 >
                     <p className="PlaylistCard__title">{playlist.title}</p>
                 </Link>
                 <div className="PlaylistCard__description">
-                    By: {playlist.author.username}
+                    By: {playlist.author && playlist.author.username}
                 </div>
             </PlaylistCardStyle>
         </>

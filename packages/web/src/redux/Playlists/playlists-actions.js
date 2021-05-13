@@ -6,6 +6,7 @@ import {
     normalizePlaylists,
     // normalizeFullPlaylists,
 } from '../../schema/playlists-schema';
+import { updateUserInfoSucces } from '../user/user-actions';
 import { signOutSuccess } from '../auth/auth-actions';
 
 export const createPlaylistRequest = () => ({
@@ -178,7 +179,7 @@ export function getAllPlaylists() {
     };
 }
 
-export function getPlaylist(playlistID, withSongsInfo) {
+export function getPlaylist(playlistID) {
     return async function getPlaylistThunk(dispatch) {
         dispatch(getPlaylistRequest());
 
@@ -186,7 +187,7 @@ export function getPlaylist(playlistID, withSongsInfo) {
             const token = await auth.getCurrentUserToken();
             if (!token) {
                 return dispatch(
-                    getPlaylistsError(`Error: 'Missing auth token'`),
+                    getPlaylistError(`Error: 'Missing auth token'`),
                 );
             }
             const res = await api.getPlaylistById(
@@ -194,12 +195,9 @@ export function getPlaylist(playlistID, withSongsInfo) {
                     Authorization: `Bearer ${token}`,
                 },
                 playlistID,
-                withSongsInfo,
             );
             if (res.errorMessage) {
-                return dispatch(
-                    getPlaylistsError(`Error: ${res.errorMessage}`),
-                );
+                return dispatch(getPlaylistError(`Error: ${res.errorMessage}`));
             }
             return dispatch(getPlaylistSuccess(res.data.data));
         } catch (error) {
@@ -298,7 +296,7 @@ export function editPlaylist(playlistId, newPlaylistChanges) {
                     updatePlaylistError(`Error: ${res.errorMessage}`),
                 );
             }
-            return dispatch(updatePlaylistSuccess(res.data));
+            return dispatch(updatePlaylistSuccess(res.data.data));
         } catch (error) {
             return dispatch(updatePlaylistError(error.message));
         }
@@ -325,6 +323,7 @@ export function addLikeToPlaylist(playlistID) {
                 return dispatch(songUpdatingError(res.errorMessage));
             } */
             // update user info and song info (?)
+            dispatch(updateUserInfoSucces(res.data.userResponse.data));
             return dispatch(
                 updatePlaylistSuccess(res.data.PlaylistResponse.data),
             );
@@ -354,6 +353,7 @@ export function followPlaylist(playlistID) {
                 return dispatch(songUpdatingError(res.errorMessage));
             } */
             // update user info and song info (?)
+            dispatch(updateUserInfoSucces(res.data.userResponse.data));
             return dispatch(
                 updatePlaylistSuccess(res.data.PlaylistResponse.data),
             );

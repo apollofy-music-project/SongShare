@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {
     addToQueue,
     deleteInAudioplayer,
+    listenPlaylist,
 } from '../../redux/audioPlayer/audioPlayer-actions';
 import { openModal } from '../../redux/quickMenu/quickMenu-actions';
 import { deleteSongByID } from '../../redux/songs/songs-actions';
@@ -14,7 +15,7 @@ import QuickMenuStyle from './styles';
 import { UseQuickPlaylistMenu } from '../../custom-hooks/quickPlaylistMenu';
 
 import { openInfoModal } from '../../redux/songInfoModal/songInfoModal-actions';
-import { useWindowSize } from '../../custom-hooks/windowSize';
+// import { useWindowSize } from '../../custom-hooks/windowSize';
 
 const QuickMenu = () => {
     const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const QuickMenu = () => {
     const playlistsByID = useSelector(state => state.playlists.byID);
 
     const { _id } = useSelector(state => state.user);
-    const wSize = useWindowSize();
+    // const wSize = useWindowSize();
 
     const [openPlaylistMenu] = UseQuickPlaylistMenu();
 
@@ -37,6 +38,11 @@ const QuickMenu = () => {
 
     const addSongToQueue = () => {
         dispatch(addToQueue(id));
+        dispatch(openModal(false));
+    };
+
+    const listenThisPlaylist = () => {
+        dispatch(listenPlaylist(Object.values(playlistsByID[id].songs)));
         dispatch(openModal(false));
     };
 
@@ -116,7 +122,7 @@ const QuickMenu = () => {
                         <button
                             className="quickMenu"
                             type="button"
-                            onClick={() => dispatch(openModal(false))}
+                            onClick={listenThisPlaylist}
                         >
                             Reproducir playlist
                         </button>

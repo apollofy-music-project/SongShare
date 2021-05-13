@@ -1,11 +1,12 @@
 import React from 'react';
-
 import { useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-import './styles.scss';
+import { Link } from 'react-router-dom';
+
 import Button from '../../styles/components/Button/GenericButton';
+import useChangePictures from '../../custom-hooks/changePictures';
 import UserProfile from './styled';
-import * as Routes from '../../routes';
+import Icons from '../../components/NavBarIcons/Icons';
+import './styles.scss';
 
 /* eslint-disable no-unused-vars */
 import useUser from '../../custom-hooks/userProfile/useUser';
@@ -15,24 +16,48 @@ import useUserProfileSwitch from '../../custom-hooks/userProfile/useUserProfileS
 function CurrentUserProfile() {
     const currentUser = useSelector(store => store.user);
     const { user, isLoading, pathUsername } = useUser();
+    const {
+        pictureSubmits,
+        onPictureChange,
+        coverPic,
+        avatarPic,
+    } = useChangePictures();
+
     const Component = useUserProfileSwitch(pathUsername);
     if (isLoading) return <h1>Loading...</h1>;
 
     const navLinks = ['library', 'info', 'edit', 'music', 'playlists'];
 
-    const coverPic =
-        user.coverImageUrl ||
-        'https://res.cloudinary.com/apollofymusicproject/image/upload/v1619558703/uploadedImages/profile.png.png';
-
-    const avatarPic =
-        user.imageUrl ||
-        'https://res.cloudinary.com/apollofymusicproject/image/upload/v1619558703/uploadedImages/profile.png.png';
-
-    // if (!user._id) return <Redirect to={Routes.HOME} />;
-
     return (
         <UserProfile cover={coverPic} className="user" image={avatarPic}>
             <div className="user__header">
+                <div className="user__header__coverPicker">
+                    <input
+                        type="file"
+                        className="cover"
+                        id="filePickerCover"
+                        onChange={e => onPictureChange(e, 'cover')}
+                    />
+                    <label htmlFor="filePickerCover">{Icons.edit}</label>
+                    <div className="user__main__aside__header__image__coverPicker__controls">
+                        <button
+                            type="submit"
+                            className="center"
+                            onClick={pictureSubmits.handleCoverSubmit}
+                        >
+                            {Icons.ok}
+                        </button>
+                        <button
+                            type="submit"
+                            className="center"
+                            onClick={e =>
+                                pictureSubmits.handleCancelSubmit(e, 'cover')
+                            }
+                        >
+                            {Icons.cancel}
+                        </button>
+                    </div>
+                </div>
                 <div className="user__header__title">
                     <p>
                         {user.name} {user.lastname}
@@ -41,28 +66,16 @@ function CurrentUserProfile() {
                 <div className="user__header__stats">
                     <div>
                         <Link to={`/${user.username}/playlists`}>
+                            {Icons.favorites}
                             <p>
-                                <span role="img" aria-label>
-                                    ⭐
-                                </span>
-                                <span>
-                                    {user.following
-                                        ? user.following.length
-                                        : '0'}
-                                </span>
+                                {user.following ? user.following.length : '0'}
                             </p>
                         </Link>
                     </div>
                     <div>
                         <Link to={`/${user.username}/music`}>
-                            <p>
-                                <span role="img" aria-label>
-                                    🎵
-                                </span>
-                                <span>
-                                    {user.songs ? user.songs.length : '0'}
-                                </span>
-                            </p>
+                            {Icons.music}
+                            <p>{user.songs ? user.songs.length : '0'}</p>
                         </Link>
                     </div>
                 </div>
@@ -125,11 +138,46 @@ function CurrentUserProfile() {
                     <div className="user__main__aside__offset">
                         <div className="user__main__aside__header">
                             <div className="user__main__aside__header__image">
-                                <br />{' '}
+                                <div className="user__main__aside__header__image__avatarPicker">
+                                    <input
+                                        type="file"
+                                        className="avatar"
+                                        id="filePickerAvatar"
+                                        onChange={e =>
+                                            onPictureChange(e, 'avatar')
+                                        }
+                                    />
+                                    <label htmlFor="filePickerAvatar">
+                                        {Icons.edit}
+                                    </label>
+                                    <div className="user__main__aside__header__image__avatarPicker__controls">
+                                        <button
+                                            type="submit"
+                                            className="center"
+                                            onClick={
+                                                pictureSubmits.handleAvatarSubmit
+                                            }
+                                        >
+                                            {Icons.ok}
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="center"
+                                            onClick={e =>
+                                                pictureSubmits.handleCancelSubmit(
+                                                    e,
+                                                    'avatar',
+                                                )
+                                            }
+                                        >
+                                            {Icons.cancel}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="user__main__aside__content">
-                            <h1>@{user.username}</h1>
+                            <h2>@{user.username}</h2>
                             <div className="user__main__aside__content__info">
                                 <div>
                                     <Link to={`/${user.username}/playlists`}>

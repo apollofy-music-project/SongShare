@@ -2,20 +2,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useParams } from 'react-router';
 
-import { Link } from 'react-router-dom';
-
-import PlaylistViewStyle from '../PlaylistView/styled';
 import '../../styles/flex.scss';
+
+import PlaylistViewHeader from '../../components/PlaylistViewHeader';
 
 import '../PlaylistView/styles.scss';
 
-import SongsList from '../../components/SongsList';
+import SongsListTable from '../../components/SongsListTable';
 import {
-    removeSongsFromPlaylist,
     getPlaylist,
+    removeSongsFromPlaylist,
 } from '../../redux/Playlists/playlists-actions';
-
-import Button from '../../styles/components/Button/GenericButton';
+import SongsListHeader from '../../components/SongsListHeader';
 
 function RemoveSongs() {
     const dispatch = useDispatch();
@@ -32,6 +30,10 @@ function RemoveSongs() {
     useEffect(() => {
         dispatch(getPlaylist(playlistId));
     }, [dispatch, playlistId]);
+
+    function handleRemoveSongs() {
+        dispatch(removeSongsFromPlaylist(playlistId, songsToRemove));
+    }
 
     function addSongToRemove(id) {
         const index = songsToRemove.findIndex(element => element === id);
@@ -52,77 +54,20 @@ function RemoveSongs() {
     }
 
     return (
-        <PlaylistViewStyle className="PlaylistView" image={playlist.img}>
-            <div className="PlaylistView__header__container">
-                <div className="PlaylistView__header__container__info">
-                    <p>Add songs to:</p>
-                    <input type="text" value={playlist.type} disabled />
-                    <input
-                        type="text"
-                        className="PlaylistView__header__container__info__title"
-                        value={playlist.title}
-                        disabled
-                    />
-                    <input
-                        type="text"
-                        className="PlaylistView__header__container__info__author"
-                        value={playlist.author.username}
-                        disabled
-                    />
-                    <div className="PlaylistView__header__container__info__container">
-                        <div className="PlaylistView__header__container__info__container__characteristic">
-                            <input
-                                type="text"
-                                value={
-                                    playlist.publicAccess ? 'Public' : 'Private'
-                                }
-                                disabled
-                            />
-                            <input
-                                type="text"
-                                value="playlist.description"
-                                disabled
-                            />
-                        </div>
-                        <div className="PlaylistView__header__container__info__container__options">
-                            <Link to={`/playlist/${playlist._id}`}>
-                                <Button
-                                    className="editButton"
-                                    type="button"
-                                    onClick={() =>
-                                        dispatch(
-                                            removeSongsFromPlaylist(
-                                                playlistId,
-                                                songsToRemove,
-                                            ),
-                                        )
-                                    }
-                                >
-                                    Remove songs
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="PlaylistView__header__container__img">
-                    <p>{playlist.title}</p>
-                </div>
-            </div>
-
-            <div className="flex-between">
-                <input type="text" value="Search" />
-                <button type="button" className="">
-                    Filter
-                </button>
-            </div>
-            <SongsList
+        <>
+            <PlaylistViewHeader playlist={playlist} from="removeSongsView" />
+            <SongsListHeader
+                handleRemoveSongs={handleRemoveSongs}
+                playlistId={playlistId}
+            />
+            <SongsListTable
                 songsToList={currentSongs}
                 option="removeSongs"
                 handleAdd={addSongToRemove}
                 handleRemove={removeSongToRemove}
+                songsToChange={songsToRemove}
             />
-        </PlaylistViewStyle>
+        </>
     );
 }
 

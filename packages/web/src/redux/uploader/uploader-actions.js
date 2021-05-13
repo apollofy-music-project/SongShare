@@ -2,6 +2,7 @@ import * as UploaderTypes from './uploader-types';
 import { getFileUrl, fileTypes } from '../../services/cloudinary';
 import api from '../../api';
 import { getCurrentUserToken } from '../../services/auth';
+import { updateUserInfoSucces } from '../user/user-actions';
 
 export const uploadSongRequest = () => ({
     type: UploaderTypes.UPLOAD_SONG_REQUEST,
@@ -31,10 +32,9 @@ export const uploadImageSuccess = imageUrl => ({
     payload: imageUrl,
 });
 
-export function uploadSong({ file, title, artist, genre }) {
+export function uploadSong({ file, title, artist, genre, songPic }) {
     return async function uploadThunk(dispatch) {
         dispatch(uploadSongRequest());
-
         try {
             const userToken = await getCurrentUserToken();
 
@@ -47,13 +47,22 @@ export function uploadSong({ file, title, artist, genre }) {
                 fileType: fileTypes.AUDIO,
             });
 
+            const { url, duration, bytes, format, asset_id } = urlRes.data;
+
+            let songPicUrl = null;
+            if (songPic) {
+                const urlImgRes = await getFileUrl({
+                    file: songPic,
+                    fileType: fileTypes.IMAGE,
+                });
+                songPicUrl = urlImgRes.data.url;
+            }
+
             if (urlRes.status >= 400) {
                 return dispatch(uploadSongError(urlRes.statusText));
             }
 
-            const { url, duration, bytes, format, asset_id } = urlRes.data;
-
-            const songRes = await api.createTrack({
+            const res = await api.createTrack({
                 body: {
                     _id: asset_id,
                     name: title,
@@ -63,16 +72,17 @@ export function uploadSong({ file, title, artist, genre }) {
                     format,
                     artist,
                     genre,
+                    songPicUrl,
                 },
                 headers: {
                     Authorization: `Bearer ${userToken}`,
                 },
             });
-
-            if (songRes.errorMessage) {
-                return dispatch(uploadSongError(songRes.errorMessage));
+            if (res.data.song.errorMessage) {
+                return dispatch(uploadSongError(res.data.song.errorMessage));
             }
 
+            dispatch(updateUserInfoSucces(res.data.userResponse.data));
             return dispatch(uploadSongSuccess(url));
         } catch (err) {
             return dispatch(uploadSongError(err.message));
