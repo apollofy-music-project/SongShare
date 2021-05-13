@@ -11,7 +11,6 @@ function LandingPage() {
     const dispatch = useDispatch();
 
     const allSongsIds = useSelector(store => store.songs.ids);
-
     useEffect(() => {
         dispatch(getAllSongs());
         dispatch(getAllPlaylists());

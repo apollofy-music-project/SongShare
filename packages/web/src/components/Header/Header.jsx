@@ -34,11 +34,7 @@ function Header() {
     return (
         <Nav className="the-nav">
             <NavLink className="nav-logo" to="/">
-                <h1>
-                    the
-                    <br />
-                    <span>LOGO</span>
-                </h1>
+                <NavBarIcons icon="logo" />
             </NavLink>
             <div className="nav-menu">
                 <NavLink to="/">
