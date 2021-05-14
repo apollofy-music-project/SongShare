@@ -23,6 +23,9 @@
         display: flex;
         flex-direction: column;
     }
+    button {
+        margin: 0 auto;
+    }
 }
 
 .form-submit,
@@ -38,5 +41,11 @@
     flex-direction: column;
     span {
         margin: 3vh 0;
+    }
+}
+
+.user__main__edit__form__data {
+    input {
+        width: 100%;
     }
 }

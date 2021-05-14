@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import '../../styles/GenericForm.scss';
+import Button from '../../styles/components/Button/GenericButton';
 
 import { updateUserInfo } from '../../redux/user/user-actions';
 
@@ -29,7 +31,11 @@ function MainInfoForm() {
     };
 
     return (
-        <form className="user__main__edit__form" onSubmit={handleSubmit}>
+        <form
+            className="user__main__edit__form form-container "
+            style={{ textAlign: 'center' }}
+            onSubmit={handleSubmit}
+        >
             <div className="user__main__edit__form__data">
                 <div className="user__main__edit__form__data__inputs">
                     <div className="inputs">
@@ -39,6 +45,7 @@ function MainInfoForm() {
                         >
                             Username
                         </label>
+                        <br />
                         <input
                             type="text"
                             name="username"
@@ -51,6 +58,7 @@ function MainInfoForm() {
 
                     <div className="inputs">
                         <label htmlFor="name">Name</label>
+                        <br />
                         <input
                             type="text"
                             name="name"
@@ -63,6 +71,7 @@ function MainInfoForm() {
 
                     <div className="inputs">
                         <label htmlFor="lastname">Last name</label>
+                        <br />
                         <input
                             type="text"
                             name="lastname"
@@ -74,6 +83,7 @@ function MainInfoForm() {
                     </div>
                     <div className="inputs">
                         <label htmlFor="email">Email</label>
+                        <br />
                         <input
                             type="text"
                             name="email"
@@ -85,13 +95,14 @@ function MainInfoForm() {
                     </div>
                 </div>
             </div>
-            <button
+            <Button
                 type="submit"
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                styles={{ margin: '0 auto', textAlign: 'center', float: 'rigth' }}
                 onClick={() => handleSubmit}
             >
                 Save
-            </button>
+            </Button>
         </form>
     );
 }
