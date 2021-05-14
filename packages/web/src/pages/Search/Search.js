@@ -3,6 +3,7 @@ import api from '../../api';
 import * as auth from '../../services/auth';
 import SongsCard from '../../components/SongsCard/SongsCard';
 import PlaylistCard from '../../components/PlaylistCard/PlaylistCard';
+import SearchStyles from './styled';
 
 import './styles.scss';
 // import SongCard from '../../components/SongsCard/styles';
@@ -92,7 +93,7 @@ const Search = () => {
     }
 
     return (
-        <div className="search">
+        <SearchStyles className="search">
             <div className="search__header">
                 <h3>Search</h3>
                 <div className="search__header__input">
@@ -114,7 +115,7 @@ const Search = () => {
                             className="search__content__music__header"
                             onClick={musicView ? hideMusic : showMusic}
                         >
-                            <h4>music</h4>
+                            <h4>MUSIC</h4>
                             {musicView ? (
                                 <div className="search__content__music__header__icon">
                                     <svg
@@ -163,7 +164,7 @@ const Search = () => {
                                         );
                                     })
                                 ) : (
-                                    <p className="nomatch">no match</p>
+                                    <p className="nomatch">NO MATCH</p>
                                 )}
                             </div>
                         ) : (
@@ -178,7 +179,7 @@ const Search = () => {
                                         );
                                     })
                                 ) : (
-                                    <p className="nomatch">no match</p>
+                                    <p className="nomatch">NO MATCH</p>
                                 )}
                             </div>
                         )}
@@ -191,7 +192,7 @@ const Search = () => {
                                 playlistView ? hidePlaylists : showPlaylists
                             }
                         >
-                            <h4>playlists</h4>
+                            <h4>PLAYLISTS</h4>
                             {playlistView ? (
                                 <div className="search__content__playlists__header__icon">
                                     <svg
@@ -240,7 +241,7 @@ const Search = () => {
                                         );
                                     })
                                 ) : (
-                                    <p className="nomatch">no match</p>
+                                    <p className="nomatch">NO MATCH</p>
                                 )}
                             </div>
                         ) : (
@@ -255,7 +256,7 @@ const Search = () => {
                                         );
                                     })
                                 ) : (
-                                    <p className="nomatch">no match</p>
+                                    <p className="nomatch">NO MATCH</p>
                                 )}
                             </div>
                         )}
@@ -266,7 +267,7 @@ const Search = () => {
                             className="search__content__users__header"
                             onClick={usersView ? hideUsers : showUsers}
                         >
-                            <h4>users</h4>
+                            <h4>USERS</h4>
                             {usersView ? (
                                 <div className="search__content__users__header__icon">
                                     <svg
@@ -315,7 +316,7 @@ const Search = () => {
                                         );
                                     })
                                 ) : (
-                                    <p className="nomatch">no match</p>
+                                    <p className="nomatch">NO MATCH</p>
                                 )}
                             </div>
                         ) : (
@@ -330,16 +331,18 @@ const Search = () => {
                                         );
                                     })
                                 ) : (
-                                    <p className="nomatch">no match</p>
+                                    <p className="nomatch">NO MATCH</p>
                                 )}
                             </div>
                         )}
                     </div>
                 </div>
             ) : (
-                <div className="search__preview">search preview</div>
+                <div className="search__preview">
+                    <br />
+                </div>
             )}
-        </div>
+        </SearchStyles>
     );
 };
 

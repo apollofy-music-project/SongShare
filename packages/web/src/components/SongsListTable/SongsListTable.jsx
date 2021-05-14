@@ -6,6 +6,7 @@ import { addSongsToPlaylist } from '../../redux/Playlists/playlists-actions';
 
 import UseSortSongs from '../../custom-hooks/sortSongs';
 import './styles.scss';
+import SongListTable from './styles'
 import SongListItem from '../SongListItem';
 
 function SongsListTable({
@@ -34,7 +35,7 @@ function SongsListTable({
         setSongsState([...swappedsong]);
     }
     return (
-        <div className="songsList__container">
+        <SongListTable className="songsList__container">
             <div className="songsList__container__header">
                 <div className="songsList__container__header__item">#</div>
                 <div className="songsList__container__header__item">title</div>
@@ -87,7 +88,7 @@ function SongsListTable({
                         />
                     );
                 })}
-        </div>
+        </SongListTable>
     );
 }
 

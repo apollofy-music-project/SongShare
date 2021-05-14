@@ -21,6 +21,11 @@ const UserProfile = styled.div`
                 }
             }
         }
+        .user__header__coverPicker {
+            fill: ${({ theme }) => theme.background};
+            background-color: ${({ theme }) => hexToRgba(theme.text, '0.2')};
+            padding: 0.4rem 0;
+        }
     }
     .user__nav {
         ul {
@@ -51,6 +56,12 @@ const UserProfile = styled.div`
             background-position: center;
             background-size: cover;
             position: relative;
+            &__avatarPicker {
+                fill: ${({ theme }) => theme.background};
+                background-color: ${({ theme }) =>
+                    hexToRgba(theme.text, '0.2')};
+                padding: 0.4rem 0;
+            }
         }
     }
     .user__main__aside__content {

@@ -120,8 +120,9 @@ const PlaylistViewHeader = ({ playlist, from }) => {
                         }}
                     />
                 </div>
-                <input
+                <textarea
                     type="text"
+                    style={{ textAlign: 'center' }}
                     className="mega-playlist__info__title"
                     defaultValue={title}
                     readOnly={from === 'mainView'}
@@ -142,7 +143,7 @@ const PlaylistViewHeader = ({ playlist, from }) => {
                     type="text"
                     className="mega-playlist__info__description"
                     defaultValue={description}
-                    readOnly={from === 'mainView'}
+                    readOnly="true"
                     onChange={e => setDescription(e.target.value)}
                 />
                 <div className="mega-playlist__info__container-info">

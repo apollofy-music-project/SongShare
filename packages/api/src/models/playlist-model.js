@@ -21,7 +21,7 @@ const PlaylistSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        default: 'https://picsum.photos/100',
+        default: 'https://picsum.photos/800',
     },
     songs: [
         {

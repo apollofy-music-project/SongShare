@@ -31,6 +31,6 @@ const PlaylistView = styled.div`
     }
 `;
 PlaylistView.defaultProps = {
-    image: 'https://picsum.photos/500',
+    image: 'https://picsum.photos/800',
 };
 export default PlaylistView;

@@ -77,7 +77,12 @@
     }
 }
 @media (max-width: 700px) {
+    .the-nav {
+        padding: 1rem !important ;
+    }
     .nav-menu {
+        margin: 0 !important ;
+        padding: 0 !important ;
         a button {
             margin: 0 !important ;
         }
