@@ -1,4 +1,4 @@
-#  Sound Share
+#  WaveIn
 
 ## Getting Started
 
